@@ -139,7 +139,7 @@ const hearts: Heart[] = [
 
 export default function BackgroundHearts() {
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 5 }}>
       {hearts.map((heart, index) => (
         <div
           key={index}

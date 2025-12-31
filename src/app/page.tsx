@@ -4,6 +4,7 @@ import BackgroundHearts from "@/components/BackgroundHearts";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import EscapedButton from "@/components/EscapedButton";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
+import YouTubeBackgroundPlayer from "@/components/YouTubeBackgroundPlayer";
 
 export default function Home() {
   const [noButtonEscaped, setNoButtonEscaped] = useState(false);
@@ -51,11 +52,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-lime-50 to-emerald-100 p-2 sm:p-4 relative overflow-hidden">
+    <div className="min-h-screen p-2 sm:p-4 relative overflow-hidden">
+      {/* YouTube Background Video */}
+      <YouTubeBackgroundPlayer videoId="Mb_U9Egf4TU" />
+
       <SpotifyPlayer playlistId="6fmca7jyU1ljfQaiVXiQMP" />
       <BackgroundHearts />
 
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center relative z-10">
         <SubscriptionCard
           noButtonEscaped={noButtonEscaped}
           isButtonEscaping={isButtonEscaping}
