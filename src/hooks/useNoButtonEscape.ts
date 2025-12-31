@@ -14,11 +14,11 @@ export function useNoButtonEscape() {
 
   const generateRandomPosition = useCallback((): Position => {
     const isMobile = window.innerWidth < APP_CONFIG.mobileBreakpoint;
-    const dimensions = isMobile 
-      ? APP_CONFIG.buttonDimensions.mobile 
+    const dimensions = isMobile
+      ? APP_CONFIG.buttonDimensions.mobile
       : APP_CONFIG.buttonDimensions.desktop;
-    const margin = isMobile 
-      ? APP_CONFIG.margins.mobile 
+    const margin = isMobile
+      ? APP_CONFIG.margins.mobile
       : APP_CONFIG.margins.desktop;
 
     const maxX = window.innerWidth - dimensions.width;
@@ -33,7 +33,9 @@ export function useNoButtonEscape() {
   }, []);
 
   const getRandomText = useCallback((): string => {
-    const randomIndex = Math.floor(Math.random() * APP_CONFIG.noButtonTexts.length);
+    const randomIndex = Math.floor(
+      Math.random() * APP_CONFIG.noButtonTexts.length
+    );
     return APP_CONFIG.noButtonTexts[randomIndex];
   }, []);
 
@@ -41,7 +43,7 @@ export function useNoButtonEscape() {
     const newPosition = generateRandomPosition();
     const newText = getRandomText();
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       position: newPosition,
       currentText: newText,
@@ -50,7 +52,7 @@ export function useNoButtonEscape() {
 
     // Small delay to allow the escaped button to fade in while original fades out
     setTimeout(() => {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         escaped: true,
       }));

@@ -1,4 +1,10 @@
-import { EscapedButtonProps } from "@/types";
+interface EscapedButtonProps {
+  isVisible: boolean;
+  isFullyEscaped: boolean;
+  position: { x: number; y: number };
+  text: string;
+  onInteract: () => void;
+}
 
 export default function EscapedButton({
   isVisible,
