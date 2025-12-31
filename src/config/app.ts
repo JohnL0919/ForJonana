@@ -4,13 +4,12 @@ export const APP_CONFIG: AppConfig = {
   youtubeVideoId: "Mb_U9Egf4TU",
   spotifyPlaylistId: "6fmca7jyU1ljfQaiVXiQMP",
   noButtonTexts: [
-    "No",
-    "Are you sure?",
-    "whaaattt wrong button",
+    "Not taking no for an answer",
+    "我不要",
     "BLEHHHHHHH",
     "Please? 🥺",
-    "拜托",
-    "Pretty please?",
+    "拜托~",
+    "為什麼~ 為什麼~ 為什麼~",
   ],
   buttonDimensions: {
     mobile: { width: 160, height: 60 },

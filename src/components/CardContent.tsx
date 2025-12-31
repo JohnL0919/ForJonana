@@ -13,8 +13,10 @@ export default function CardContent() {
 
       {/* Features */}
       <p className="text-center text-gray-500 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">
-        Premium features include: unlimited hugs, daily laughs, and lifetime
-        love
+        Premium features include: Unlimited hugs & kisses , Unlimited words of
+        affirmation, 24/7 emotional support, Washing your dishes, Buy you
+        flowers and yummy food, cook you yummy eggs, Lifetime love guarantee,
+        Free upgrade to soulmate status (if you want), love
       </p>
     </>
   );
