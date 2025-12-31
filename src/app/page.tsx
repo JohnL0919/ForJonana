@@ -2,6 +2,7 @@
 import { useState } from "react";
 import BackgroundHearts from "@/components/BackgroundHearts";
 import SubscriptionCard from "@/components/SubscriptionCard";
+import SubscriptionSuccess from "@/components/SubscriptionSuccess";
 import EscapedButton from "@/components/EscapedButton";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import YouTubeBackgroundPlayer from "@/components/YouTubeBackgroundPlayer";
@@ -11,6 +12,7 @@ export default function Home() {
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
   const [isButtonEscaping, setIsButtonEscaping] = useState(false);
   const [currentNoText, setCurrentNoText] = useState("No");
+  const [showSuccessPage, setShowSuccessPage] = useState(false);
 
   const noButtonTexts = [
     "No",
@@ -51,6 +53,18 @@ export default function Home() {
     }, 150);
   };
 
+  const handleYesClick = () => {
+    setShowSuccessPage(true);
+  };
+
+  const handleBackToCard = () => {
+    setShowSuccessPage(false);
+    // Reset the no button states
+    setNoButtonEscaped(false);
+    setIsButtonEscaping(false);
+    setCurrentNoText("No");
+  };
+
   return (
     <div className="min-h-screen p-2 sm:p-4 relative overflow-hidden">
       {/* YouTube Background Video */}
@@ -60,21 +74,28 @@ export default function Home() {
       <BackgroundHearts />
 
       <div className="flex min-h-screen items-center justify-center relative z-10">
-        <SubscriptionCard
-          noButtonEscaped={noButtonEscaped}
-          isButtonEscaping={isButtonEscaping}
-          currentNoText={currentNoText}
-          onNoButtonInteract={moveNoButton}
-        />
+        {showSuccessPage ? (
+          <SubscriptionSuccess onClose={handleBackToCard} />
+        ) : (
+          <SubscriptionCard
+            noButtonEscaped={noButtonEscaped}
+            isButtonEscaping={isButtonEscaping}
+            currentNoText={currentNoText}
+            onNoButtonInteract={moveNoButton}
+            onYesClick={handleYesClick}
+          />
+        )}
       </div>
 
-      <EscapedButton
-        isVisible={isButtonEscaping}
-        isFullyEscaped={noButtonEscaped}
-        position={noButtonPosition}
-        text={currentNoText}
-        onInteract={moveNoButton}
-      />
+      {!showSuccessPage && (
+        <EscapedButton
+          isVisible={isButtonEscaping}
+          isFullyEscaped={noButtonEscaped}
+          position={noButtonPosition}
+          text={currentNoText}
+          onInteract={moveNoButton}
+        />
+      )}
     </div>
   );
 }
