@@ -5,6 +5,17 @@ export default function Home() {
   const [noButtonEscaped, setNoButtonEscaped] = useState(false);
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
   const [isButtonEscaping, setIsButtonEscaping] = useState(false);
+  const [currentNoText, setCurrentNoText] = useState("No");
+
+  const noButtonTexts = [
+    "No",
+    "Are you sure?",
+    "whaaattt wrong button",
+    "BLEHHHHHHH",
+    "Please? 🥺",
+    "拜托",
+    "Pretty please?",
+  ];
 
   const moveNoButton = () => {
     // Generate random position within viewport (leaving margins for button size)
@@ -16,7 +27,12 @@ export default function Home() {
     const newX = Math.random() * (maxX - minX) + minX;
     const newY = Math.random() * (maxY - minY) + minY;
 
+    // Pick a random text from the array
+    const randomIndex = Math.floor(Math.random() * noButtonTexts.length);
+    const newText = noButtonTexts[randomIndex];
+
     setNoButtonPosition({ x: newX, y: newY });
+    setCurrentNoText(newText);
     setIsButtonEscaping(true);
 
     // Small delay to allow the escaped button to fade in while original fades out
@@ -227,7 +243,7 @@ export default function Home() {
                 }`}
                 onMouseEnter={moveNoButton}
               >
-                No
+                {currentNoText}
               </button>
             )}
           </div>
@@ -245,7 +261,7 @@ export default function Home() {
               }}
               onMouseEnter={moveNoButton}
             >
-              No
+              {currentNoText}
             </button>
           )}
 
