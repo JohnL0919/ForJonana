@@ -18,11 +18,16 @@ export default function Home() {
   ];
 
   const moveNoButton = () => {
-    // Generate random position within viewport (leaving margins for button size)
-    const maxX = window.innerWidth - 200; // Account for button width
-    const maxY = window.innerHeight - 80; // Account for button height
-    const minX = 20;
-    const minY = 20;
+    // Generate random position within viewport (responsive for mobile)
+    const isMobile = window.innerWidth < 768;
+    const buttonWidth = isMobile ? 160 : 200;
+    const buttonHeight = isMobile ? 60 : 80;
+    const margin = isMobile ? 10 : 20;
+
+    const maxX = window.innerWidth - buttonWidth;
+    const maxY = window.innerHeight - buttonHeight;
+    const minX = margin;
+    const minY = margin;
 
     const newX = Math.random() * (maxX - minX) + minX;
     const newY = Math.random() * (maxY - minY) + minY;
@@ -42,7 +47,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-lime-50 to-emerald-100 p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-lime-50 to-emerald-100 p-2 sm:p-4 relative overflow-hidden">
       {/* Decorative Hearts Background */}
       <div className="absolute inset-0 pointer-events-none">
         {[
@@ -185,12 +190,12 @@ export default function Home() {
       </div>
 
       <div className="flex min-h-screen items-center justify-center">
-        <div className="relative bg-white rounded-3xl shadow-2xl p-12 max-w-md w-full mx-4 border border-lime-200 transition-all duration-300 ease-in-out">
+        <div className="relative bg-white rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 max-w-md w-full mx-2 sm:mx-4 border border-lime-200 transition-all duration-300 ease-in-out">
           {/* Top Heart Icon */}
-          <div className="flex justify-center mb-8">
-            <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center">
+          <div className="flex justify-center mb-6 sm:mb-8">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-emerald-500 rounded-full flex items-center justify-center">
               <svg
-                className="w-8 h-8 text-white"
+                className="w-6 h-6 sm:w-8 sm:h-8 text-white"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -204,44 +209,46 @@ export default function Home() {
           </div>
 
           {/* Title */}
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-bold text-emerald-600 mb-2">
+          <div className="text-center mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-emerald-600 mb-1 sm:mb-2">
               Relationship
             </h1>
-            <h2 className="text-4xl font-bold text-emerald-600">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-emerald-600">
               Subscription
             </h2>
           </div>
 
           {/* Subtitle */}
-          <p className="text-center text-gray-600 text-lg mb-8">
+          <p className="text-center text-gray-600 text-base sm:text-lg mb-6 sm:mb-8">
             Your subscription is about to expire...
           </p>
 
           {/* Question */}
-          <h3 className="text-center text-xl font-semibold text-gray-800 mb-6">
+          <h3 className="text-center text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">
             Would you like to renew?
           </h3>
 
           {/* Features */}
-          <p className="text-center text-gray-500 text-sm mb-8 leading-relaxed">
+          <p className="text-center text-gray-500 text-xs sm:text-sm mb-6 sm:mb-8 leading-relaxed">
             Premium features include: unlimited hugs, daily laughs, and lifetime
             love
           </p>
 
           {/* Buttons */}
           <div className="flex flex-col gap-3">
-            <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg">
+            <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg text-sm sm:text-base">
               Yes! 💕
             </button>
             {!noButtonEscaped && (
               <button
-                className={`w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-4 px-6 rounded-2xl transition-all duration-300 ${
+                className={`w-full bg-gray-200 hover:bg-gray-300 active:bg-gray-300 text-gray-700 font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-2xl transition-all duration-300 text-sm sm:text-base ${
                   isButtonEscaping
                     ? "opacity-0 scale-95 pointer-events-none"
                     : "opacity-100 scale-100"
                 }`}
                 onMouseEnter={moveNoButton}
+                onTouchStart={moveNoButton}
+                onClick={moveNoButton}
               >
                 {currentNoText}
               </button>
@@ -251,7 +258,7 @@ export default function Home() {
           {/* Escaped No Button */}
           {isButtonEscaping && (
             <button
-              className={`fixed bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-4 px-6 rounded-2xl transition-all duration-300 ease-out z-50 whitespace-nowrap ${
+              className={`fixed bg-gray-200 hover:bg-gray-300 active:bg-gray-300 text-gray-700 font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-2xl transition-all duration-300 ease-out z-50 whitespace-nowrap text-sm sm:text-base ${
                 noButtonEscaped ? "opacity-100 scale-100" : "opacity-0 scale-75"
               }`}
               style={{
@@ -260,16 +267,18 @@ export default function Home() {
                 transform: "translate(-50%, -50%)",
               }}
               onMouseEnter={moveNoButton}
+              onTouchStart={moveNoButton}
+              onClick={moveNoButton}
             >
               {currentNoText}
             </button>
           )}
 
           {/* Decorative corner hearts */}
-          <div className="absolute -top-2 -right-2 text-emerald-400 text-xl">
+          <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 text-emerald-400 text-lg sm:text-xl">
             🍌
           </div>
-          <div className="absolute -bottom-2 -left-2 text-emerald-400 text-xl">
+          <div className="absolute -bottom-1 -left-1 sm:-bottom-2 sm:-left-2 text-emerald-400 text-lg sm:text-xl">
             🍌
           </div>
         </div>
