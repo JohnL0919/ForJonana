@@ -1,4 +1,30 @@
+"use client";
+import { useState } from "react";
+
 export default function Home() {
+  const [noButtonEscaped, setNoButtonEscaped] = useState(false);
+  const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
+  const [isButtonEscaping, setIsButtonEscaping] = useState(false);
+
+  const moveNoButton = () => {
+    // Generate random position within viewport (leaving margins for button size)
+    const maxX = window.innerWidth - 200; // Account for button width
+    const maxY = window.innerHeight - 80; // Account for button height
+    const minX = 20;
+    const minY = 20;
+
+    const newX = Math.random() * (maxX - minX) + minX;
+    const newY = Math.random() * (maxY - minY) + minY;
+
+    setNoButtonPosition({ x: newX, y: newY });
+    setIsButtonEscaping(true);
+
+    // Small delay to allow the escaped button to fade in while original fades out
+    setTimeout(() => {
+      setNoButtonEscaped(true);
+    }, 150);
+  };
+
   return (
     <div className="min-h-screen bg-linear-to-br from-lime-50 to-emerald-100 p-4 relative overflow-hidden">
       {/* Decorative Hearts Background */}
@@ -143,7 +169,7 @@ export default function Home() {
       </div>
 
       <div className="flex min-h-screen items-center justify-center">
-        <div className="relative bg-white rounded-3xl shadow-2xl p-12 max-w-md w-full mx-4 border border-lime-200">
+        <div className="relative bg-white rounded-3xl shadow-2xl p-12 max-w-md w-full mx-4 border border-lime-200 transition-all duration-300 ease-in-out">
           {/* Top Heart Icon */}
           <div className="flex justify-center mb-8">
             <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center">
@@ -192,10 +218,36 @@ export default function Home() {
             <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:scale-105 shadow-lg">
               Yes! 💕
             </button>
-            <button className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-4 px-6 rounded-2xl transition-all duration-200">
+            {!noButtonEscaped && (
+              <button
+                className={`w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-4 px-6 rounded-2xl transition-all duration-300 ${
+                  isButtonEscaping
+                    ? "opacity-0 scale-95 pointer-events-none"
+                    : "opacity-100 scale-100"
+                }`}
+                onMouseEnter={moveNoButton}
+              >
+                No
+              </button>
+            )}
+          </div>
+
+          {/* Escaped No Button */}
+          {isButtonEscaping && (
+            <button
+              className={`fixed bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-4 px-6 rounded-2xl transition-all duration-300 ease-out z-50 whitespace-nowrap ${
+                noButtonEscaped ? "opacity-100 scale-100" : "opacity-0 scale-75"
+              }`}
+              style={{
+                left: `${noButtonPosition.x}px`,
+                top: `${noButtonPosition.y}px`,
+                transform: "translate(-50%, -50%)",
+              }}
+              onMouseEnter={moveNoButton}
+            >
               No
             </button>
-          </div>
+          )}
 
           {/* Decorative corner hearts */}
           <div className="absolute -top-2 -right-2 text-emerald-400 text-xl">
