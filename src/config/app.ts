@@ -26,8 +26,11 @@ export const APP_CONFIG: AppConfig = {
 
 export const PREMIUM_BENEFITS = [
   "Unlimited hugs & kisses",
+  "Unlimited words of affirmation",
   "24/7 emotional support",
-  "Daily laughs and inside jokes",
+  "Washing your dishes",
+  "Buy you flowers and yummy food",
+  "cook you yummy eggs",
   "Lifetime love guarantee",
-  "Free upgrade to soulmate status",
+  "Free upgrade to soulmate status (if you want)",
 ] as const;

@@ -15,20 +15,20 @@ export default function SubscriptionSuccess({
 
       {/* Success Header */}
       <div className="text-center mb-8">
-        <h1 className="text-4xl sm:text-5xl font-bold text-emerald-600 mb-4">
+        <h1 className="text-4xl sm:text-5xl font-bold text-emerald-600 mb-2">
           Yay! 🎉
         </h1>
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">
           Subscription Successfully Renewed!
         </h2>
-        <p className="text-lg text-gray-600 leading-relaxed">
+        <p className="text-sm text-gray-600 leading-relaxed">
           Thank you for choosing to continue this amazing journey together 💕
         </p>
       </div>
 
       {/* Premium Benefits */}
-      <div className="bg-emerald-50 rounded-2xl p-6 mb-6">
-        <h3 className="text-xl font-bold text-gray-800 text-center mb-4">
+      <div className="bg-emerald-50 rounded-2xl p-6 mb-2">
+        <h3 className="text-lg font-bold text-gray-800 text-center">
           Your Premium Benefits:
         </h3>
         <div className="space-y-3">
@@ -43,18 +43,9 @@ export default function SubscriptionSuccess({
 
       {/* Love Message */}
       <div className="text-center">
-        <p className="text-2xl font-bold text-emerald-600 mb-4">
-          I love you! ❤️
+        <p className="text-2xl font-bold text-emerald-600 mb-2">
+          I love you so muchieeee! ❤️
         </p>
-
-        {onClose && (
-          <button
-            onClick={onClose}
-            className="mt-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-8 rounded-2xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg"
-          >
-            Continue Journey 💕
-          </button>
-        )}
       </div>
 
       {/* Corner Decorations */}
