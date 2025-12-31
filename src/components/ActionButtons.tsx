@@ -1,18 +1,15 @@
-interface ActionButtonsProps {
-  noButtonEscaped: boolean;
-  isButtonEscaping: boolean;
-  currentNoText: string;
-  onNoButtonInteract: () => void;
-  onYesClick: () => void;
-}
+import { ActionButtonsProps } from "@/types";
 
 export default function ActionButtons({
-  noButtonEscaped,
-  isButtonEscaping,
-  currentNoText,
+  noButtonState,
   onNoButtonInteract,
   onYesClick,
 }: ActionButtonsProps) {
+  const {
+    escaped: noButtonEscaped,
+    isEscaping: isButtonEscaping,
+    currentText,
+  } = noButtonState;
   return (
     <div className="flex flex-col gap-3">
       <button
@@ -32,7 +29,7 @@ export default function ActionButtons({
           onTouchStart={onNoButtonInteract}
           onClick={onNoButtonInteract}
         >
-          {currentNoText}
+          {currentText}
         </button>
       )}
     </div>

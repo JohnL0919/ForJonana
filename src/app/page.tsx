@@ -1,87 +1,42 @@
 "use client";
-import { useState } from "react";
 import BackgroundHearts from "@/components/BackgroundHearts";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import SubscriptionSuccess from "@/components/SubscriptionSuccess";
 import EscapedButton from "@/components/EscapedButton";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import YouTubeBackgroundPlayer from "@/components/YouTubeBackgroundPlayer";
+import { useNoButtonEscape } from "@/hooks/useNoButtonEscape";
+import { useAppState } from "@/hooks/useAppState";
+import { APP_CONFIG } from "@/config/app";
 
 export default function Home() {
-  const [noButtonEscaped, setNoButtonEscaped] = useState(false);
-  const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
-  const [isButtonEscaping, setIsButtonEscaping] = useState(false);
-  const [currentNoText, setCurrentNoText] = useState("No");
-  const [showSuccessPage, setShowSuccessPage] = useState(false);
+  const {
+    state: noButtonState,
+    escapeButton,
+    resetState,
+  } = useNoButtonEscape();
+  const { showSuccessPage, handleYesClick, handleBackToCard } = useAppState();
 
-  const noButtonTexts = [
-    "No",
-    "Are you sure?",
-    "whaaattt wrong button",
-    "BLEHHHHHHH",
-    "Please? 🥺",
-    "拜托",
-    "Pretty please?",
-  ];
-
-  const moveNoButton = () => {
-    // Generate random position within viewport (responsive for mobile)
-    const isMobile = window.innerWidth < 768;
-    const buttonWidth = isMobile ? 160 : 200;
-    const buttonHeight = isMobile ? 60 : 80;
-    const margin = isMobile ? 10 : 20;
-
-    const maxX = window.innerWidth - buttonWidth;
-    const maxY = window.innerHeight - buttonHeight;
-    const minX = margin;
-    const minY = margin;
-
-    const newX = Math.random() * (maxX - minX) + minX;
-    const newY = Math.random() * (maxY - minY) + minY;
-
-    // Pick a random text from the array
-    const randomIndex = Math.floor(Math.random() * noButtonTexts.length);
-    const newText = noButtonTexts[randomIndex];
-
-    setNoButtonPosition({ x: newX, y: newY });
-    setCurrentNoText(newText);
-    setIsButtonEscaping(true);
-
-    // Small delay to allow the escaped button to fade in while original fades out
-    setTimeout(() => {
-      setNoButtonEscaped(true);
-    }, 150);
-  };
-
-  const handleYesClick = () => {
-    setShowSuccessPage(true);
-  };
-
-  const handleBackToCard = () => {
-    setShowSuccessPage(false);
-    // Reset the no button states
-    setNoButtonEscaped(false);
-    setIsButtonEscaping(false);
-    setCurrentNoText("No");
+  const handleBackToCardWithReset = () => {
+    handleBackToCard();
+    resetState();
   };
 
   return (
     <div className="min-h-screen p-2 sm:p-4 relative overflow-hidden">
       {/* YouTube Background Video */}
-      <YouTubeBackgroundPlayer videoId="Mb_U9Egf4TU" />
+      <YouTubeBackgroundPlayer videoId={APP_CONFIG.youtubeVideoId} />
 
-      <SpotifyPlayer playlistId="6fmca7jyU1ljfQaiVXiQMP" />
+      <SpotifyPlayer playlistId={APP_CONFIG.spotifyPlaylistId} />
       <BackgroundHearts />
 
       <div className="flex min-h-screen items-center justify-center relative z-10">
         {showSuccessPage ? (
-          <SubscriptionSuccess onClose={handleBackToCard} />
+          <SubscriptionSuccess onClose={handleBackToCardWithReset} />
         ) : (
           <SubscriptionCard
-            noButtonEscaped={noButtonEscaped}
-            isButtonEscaping={isButtonEscaping}
-            currentNoText={currentNoText}
-            onNoButtonInteract={moveNoButton}
+            noButtonState={noButtonState}
+            onNoButtonInteract={escapeButton}
             onYesClick={handleYesClick}
           />
         )}
@@ -89,11 +44,11 @@ export default function Home() {
 
       {!showSuccessPage && (
         <EscapedButton
-          isVisible={isButtonEscaping}
-          isFullyEscaped={noButtonEscaped}
-          position={noButtonPosition}
-          text={currentNoText}
-          onInteract={moveNoButton}
+          isVisible={noButtonState.isEscaping}
+          isFullyEscaped={noButtonState.escaped}
+          position={noButtonState.position}
+          text={noButtonState.currentText}
+          onInteract={escapeButton}
         />
       )}
     </div>

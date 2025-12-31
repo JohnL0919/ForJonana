@@ -1,9 +1,6 @@
 "use client";
 import { useState } from "react";
-
-interface SpotifyPlayerProps {
-  playlistId?: string; // Spotify playlist ID
-}
+import { SpotifyPlayerProps } from "@/types";
 
 export default function SpotifyPlayer({
   playlistId = "37i9dQZF1DX0XUsuxWHRQd",

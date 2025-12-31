@@ -3,19 +3,10 @@ import CardTitle from "./CardTitle";
 import CardContent from "./CardContent";
 import ActionButtons from "./ActionButtons";
 import CornerDecorations from "./CornerDecorations";
-
-interface SubscriptionCardProps {
-  noButtonEscaped: boolean;
-  isButtonEscaping: boolean;
-  currentNoText: string;
-  onNoButtonInteract: () => void;
-  onYesClick: () => void;
-}
+import { SubscriptionCardProps } from "@/types";
 
 export default function SubscriptionCard({
-  noButtonEscaped,
-  isButtonEscaping,
-  currentNoText,
+  noButtonState,
   onNoButtonInteract,
   onYesClick,
 }: SubscriptionCardProps) {
@@ -25,9 +16,7 @@ export default function SubscriptionCard({
       <CardTitle />
       <CardContent />
       <ActionButtons
-        noButtonEscaped={noButtonEscaped}
-        isButtonEscaping={isButtonEscaping}
-        currentNoText={currentNoText}
+        noButtonState={noButtonState}
         onNoButtonInteract={onNoButtonInteract}
         onYesClick={onYesClick}
       />

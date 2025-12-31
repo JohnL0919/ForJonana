@@ -1,6 +1,5 @@
-interface SubscriptionSuccessProps {
-  onClose?: () => void;
-}
+import { SubscriptionSuccessProps } from "@/types";
+import { PREMIUM_BENEFITS } from "@/config/app";
 
 export default function SubscriptionSuccess({
   onClose,
@@ -33,36 +32,12 @@ export default function SubscriptionSuccess({
           Your Premium Benefits:
         </h3>
         <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <span className="text-emerald-500 text-xl">💚</span>
-            <span className="text-gray-700 font-medium">
-              Unlimited hugs & kisses
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-emerald-500 text-xl">💚</span>
-            <span className="text-gray-700 font-medium">
-              24/7 emotional support
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-emerald-500 text-xl">💚</span>
-            <span className="text-gray-700 font-medium">
-              Daily laughs and inside jokes
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-emerald-500 text-xl">💚</span>
-            <span className="text-gray-700 font-medium">
-              Lifetime love guarantee
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="text-emerald-500 text-xl">💚</span>
-            <span className="text-gray-700 font-medium">
-              Free upgrade to soulmate status
-            </span>
-          </div>
+          {PREMIUM_BENEFITS.map((benefit, index) => (
+            <div key={index} className="flex items-center gap-3">
+              <span className="text-emerald-500 text-xl">💚</span>
+              <span className="text-gray-700 font-medium">{benefit}</span>
+            </div>
+          ))}
         </div>
       </div>
 

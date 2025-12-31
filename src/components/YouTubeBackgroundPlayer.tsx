@@ -1,9 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-
-interface YouTubeBackgroundPlayerProps {
-  videoId: string;
-}
+import { YouTubeBackgroundPlayerProps } from "@/types";
 
 declare global {
   interface Window {
@@ -184,7 +181,7 @@ export default function YouTubeBackgroundPlayer({
         className="fixed bottom-4 right-4 z-50"
         style={{ pointerEvents: "auto" }}
       >
-        <button
+        {/* <button
           onClick={() => {
             if (ytPlayerRef.current) {
               try {
@@ -200,7 +197,7 @@ export default function YouTubeBackgroundPlayer({
           className="bg-white/20 backdrop-blur-md text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-white/30 transition-all shadow-lg border border-white/20"
         >
           ▶️ Play Video
-        </button>
+        </button> */}
       </div>
     </>
   );
