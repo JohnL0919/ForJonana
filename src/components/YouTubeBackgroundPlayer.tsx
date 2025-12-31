@@ -2,10 +2,82 @@
 import { useEffect, useRef, useState } from "react";
 import { YouTubeBackgroundPlayerProps } from "@/types";
 
+// YouTube API Types
+interface YTPlayerVars {
+  autoplay?: number;
+  controls?: number;
+  disablekb?: number;
+  enablejsapi?: number;
+  fs?: number;
+  iv_load_policy?: number;
+  modestbranding?: number;
+  playsinline?: number;
+  rel?: number;
+  showinfo?: number;
+  start?: number;
+  mute?: number;
+  loop?: number;
+  playlist?: string;
+  origin?: string;
+}
+
+interface YTPlayerEvent {
+  target: YTPlayer;
+  data: number;
+}
+
+interface YTPlayer {
+  playVideo(): void;
+  pauseVideo(): void;
+  stopVideo(): void;
+  unMute(): void;
+  mute(): void;
+  setVolume(volume: number): void;
+  getVolume(): number;
+  destroy(): void;
+}
+
+interface YTPlayerConstructor {
+  new (
+    elementId: HTMLElement,
+    config: {
+      height: string;
+      width: string;
+      videoId: string;
+      playerVars: YTPlayerVars;
+      events: {
+        onReady?: (event: YTPlayerEvent) => void;
+        onStateChange?: (event: YTPlayerEvent) => void;
+        onError?: (event: YTPlayerEvent) => void;
+      };
+    }
+  ): YTPlayer;
+  PlayerState: {
+    UNSTARTED: number;
+    ENDED: number;
+    PLAYING: number;
+    PAUSED: number;
+    BUFFERING: number;
+    CUED: number;
+  };
+}
+
+interface YouTubeAPI {
+  Player: YTPlayerConstructor;
+  PlayerState: {
+    UNSTARTED: number;
+    ENDED: number;
+    PLAYING: number;
+    PAUSED: number;
+    BUFFERING: number;
+    CUED: number;
+  };
+}
+
 declare global {
   interface Window {
     onYouTubeIframeAPIReady: () => void;
-    YT: any;
+    YT: YouTubeAPI;
   }
 }
 
@@ -13,7 +85,7 @@ export default function YouTubeBackgroundPlayer({
   videoId,
 }: YouTubeBackgroundPlayerProps) {
   const playerRef = useRef<HTMLDivElement>(null);
-  const ytPlayerRef = useRef<any>(null);
+  const ytPlayerRef = useRef<YTPlayer | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
@@ -59,7 +131,7 @@ export default function YouTubeBackgroundPlayer({
             origin: window.location.origin,
           },
           events: {
-            onReady: (event: any) => {
+            onReady: (event: YTPlayerEvent) => {
               console.log("YouTube player ready");
               setIsLoading(false);
               setHasError(false);
@@ -80,7 +152,7 @@ export default function YouTubeBackgroundPlayer({
                 }
               }, 1000);
             },
-            onStateChange: (event: any) => {
+            onStateChange: (event: YTPlayerEvent) => {
               console.log("YouTube player state changed:", event.data);
               // Keep the video playing and looped
               if (event.data === window.YT.PlayerState.ENDED) {
@@ -93,7 +165,7 @@ export default function YouTubeBackgroundPlayer({
                 }, 500);
               }
             },
-            onError: (event: any) => {
+            onError: (event: YTPlayerEvent) => {
               console.error("YouTube player error:", event.data);
               setHasError(true);
               setIsLoading(false);
