@@ -1,9 +1,7 @@
 import { SubscriptionSuccessProps } from "@/types";
 import { PREMIUM_BENEFITS } from "@/config/app";
 
-export default function SubscriptionSuccess({
-  onClose,
-}: SubscriptionSuccessProps) {
+export default function SubscriptionSuccess({}: SubscriptionSuccessProps) {
   return (
     <div className="relative bg-white rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 max-w-lg w-full mx-2 sm:mx-4 border border-lime-200 transition-all duration-500 ease-in-out">
       {/* Celebration Elements */}
