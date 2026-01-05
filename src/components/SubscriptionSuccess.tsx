@@ -11,7 +11,7 @@ export default function SubscriptionSuccess({}: SubscriptionSuccessProps) {
           Yay! 🎉 Successfully Renewed!
         </h1>
         <p className="text-sm text-gray-600">
-          Thank you for continuing this amazing journey together 💕
+          Thank you BEBBBBBBB for continuing this amazing journey together 💕
         </p>
       </div>
 
