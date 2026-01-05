@@ -33,4 +33,9 @@ export const PREMIUM_BENEFITS = [
   "cook you yummy eggs",
   "Lifetime love guarantee",
   "Free upgrade to soulmate status (if you want)",
+  "Make you matcha in the morning",
+  "Be your gym partner",
+  "Help you carry heavy things",
+  "Wash your back for you",
+  "Squeeze toothpaste for you",
 ] as const;

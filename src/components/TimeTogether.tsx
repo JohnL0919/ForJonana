@@ -26,7 +26,7 @@ export default function TimeTogether({
       <div className="grid grid-cols-1 gap-2 mb-3 flex-1">
         <div className="grid grid-cols-3 gap-1 text-center">
           <div>
-            <div className="text-lg font-bold text-emerald-600">
+            <div className="text-4xl font-bold text-emerald-600">
               {timeTogether.years}
             </div>
             <div className="text-xs text-gray-600 uppercase">
@@ -34,7 +34,7 @@ export default function TimeTogether({
             </div>
           </div>
           <div>
-            <div className="text-lg font-bold text-pink-600">
+            <div className="text-4xl font-bold text-pink-600">
               {timeTogether.months}
             </div>
             <div className="text-xs text-gray-600 uppercase">
@@ -42,7 +42,7 @@ export default function TimeTogether({
             </div>
           </div>
           <div>
-            <div className="text-lg font-bold text-purple-600">
+            <div className="text-4xl font-bold text-purple-600">
               {timeTogether.days}
             </div>
             <div className="text-xs text-gray-600 uppercase">
@@ -53,8 +53,8 @@ export default function TimeTogether({
 
         {/* Live clock display - compact */}
         <div className="bg-white/70 rounded-xl p-2 text-center">
-          <div className="text-xs text-gray-600 mb-1">Live Clock</div>
-          <div className="font-mono text-base font-bold text-gray-800">
+          <div className="text-xl text-gray-600 mb-1">Live Clock</div>
+          <div className="font-mono text-xl font-bold text-gray-800">
             {formatNumber(timeTogether.hours)}:
             {formatNumber(timeTogether.minutes)}:
             {formatNumber(timeTogether.seconds)}
@@ -63,7 +63,7 @@ export default function TimeTogether({
 
         {/* Total days counter - compact */}
         <div className="text-center">
-          <div className="text-xs text-gray-600">
+          <div className="text-xl text-gray-600">
             <span className="font-bold text-emerald-600">
               {timeTogether.totalDays.toLocaleString()}
             </span>{" "}
