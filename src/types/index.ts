@@ -16,6 +16,7 @@ export interface NoButtonState {
 export interface AppConfig {
   youtubeVideoId: string;
   spotifyPlaylistId: string;
+  relationshipStartDate: string;
   noButtonTexts: string[];
   buttonDimensions: {
     mobile: { width: number; height: number };

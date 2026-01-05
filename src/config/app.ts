@@ -3,6 +3,7 @@ import { AppConfig } from "@/types";
 export const APP_CONFIG: AppConfig = {
   youtubeVideoId: "Mb_U9Egf4TU",
   spotifyPlaylistId: "6fmca7jyU1ljfQaiVXiQMP",
+  relationshipStartDate: "2025-04-06T00:00:00", // Officially became boyfriend & girlfriend! 💕
   noButtonTexts: [
     "Not taking no for an answer",
     "我不要",
