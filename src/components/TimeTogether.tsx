@@ -16,7 +16,7 @@ export default function TimeTogether({
 
   return (
     <div
-      className={`bg-gradient-to-r from-pink-50 to-emerald-50 rounded-2xl p-3 flex flex-col ${className}`}
+      className={`bg-linear-to-r from-pink-50 to-emerald-50 rounded-2xl p-3 flex flex-col ${className}`}
     >
       <h3 className="text-center text-base font-bold text-gray-800 mb-2">
         Together for... 💕
