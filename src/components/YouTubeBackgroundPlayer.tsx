@@ -125,10 +125,13 @@ export default function YouTubeBackgroundPlayer({
             rel: 0,
             showinfo: 0,
             start: 0,
-            mute: 0, // Try to play with sound first
+            mute: 0, // Start muted for better autoplay compatibility
             loop: 1,
             playlist: videoId, // Required for looping
-            origin: window.location.origin,
+            origin:
+              typeof window !== "undefined"
+                ? window.location.origin
+                : undefined,
           },
           events: {
             onReady: (event: YTPlayerEvent) => {
@@ -166,7 +169,17 @@ export default function YouTubeBackgroundPlayer({
               }
             },
             onError: (event: YTPlayerEvent) => {
-              console.error("YouTube player error:", event.data);
+              const errorMessages = {
+                2: "Invalid video ID",
+                5: "HTML5 player error",
+                100: "Video not found or private",
+                101: "Video owner doesn't allow embedding",
+                150: "Video owner doesn't allow embedding",
+              };
+              const errorMsg =
+                errorMessages[event.data as keyof typeof errorMessages] ||
+                `Unknown error: ${event.data}`;
+              console.error("YouTube player error:", errorMsg, event.data);
               setHasError(true);
               setIsLoading(false);
             },
@@ -253,13 +266,13 @@ export default function YouTubeBackgroundPlayer({
         className="fixed bottom-4 right-4 z-50"
         style={{ pointerEvents: "auto" }}
       >
-        {/* <button
+        <button
           onClick={() => {
             if (ytPlayerRef.current) {
               try {
                 ytPlayerRef.current.unMute();
                 ytPlayerRef.current.playVideo();
-                ytPlayerRef.current.setVolume(40);
+                ytPlayerRef.current.setVolume(30);
                 console.log("Manually started video with audio");
               } catch (error) {
                 console.log("Could not play video:", error);
@@ -268,8 +281,8 @@ export default function YouTubeBackgroundPlayer({
           }}
           className="bg-white/20 backdrop-blur-md text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-white/30 transition-all shadow-lg border border-white/20"
         >
-          ▶️ Play Video
-        </button> */}
+          🔊 Enable Audio
+        </button>
       </div>
     </>
   );

@@ -2,11 +2,28 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // Optimize for Firebase App Hosting
-  output: "standalone",
+  output: "export",
+  trailingSlash: true,
+  distDir: "out",
 
-  // Enable experimental features for better Firebase integration
-  experimental: {
-    serverComponentsExternalPackages: ["firebase-admin"],
+  // Headers for YouTube iframe integration
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+          {
+            key: "Content-Security-Policy",
+            value:
+              "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://s.ytimg.com;",
+          },
+        ],
+      },
+    ];
   },
 
   // Image optimization config for Firebase hosting
@@ -14,9 +31,6 @@ const nextConfig: NextConfig = {
     unoptimized: false,
     domains: [],
   },
-
-  // Enable static generation where possible
-  trailingSlash: false,
 
   // Environment variables validation
   env: {
