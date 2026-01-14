@@ -9,8 +9,13 @@ interface FirebaseProviderProps {
 
 export default function FirebaseProvider({ children }: FirebaseProviderProps) {
   useEffect(() => {
+    // Only initialize auth listener on client side when auth is available
+    if (!auth) {
+      console.log("Firebase auth not available (likely SSR)");
+      return;
+    }
+
     // Initialize Firebase auth state persistence
-    // This ensures auth state persists across page reloads
     const unsubscribe = auth.onAuthStateChanged((user) => {
       // You can add auth state logic here if needed
       if (user) {
