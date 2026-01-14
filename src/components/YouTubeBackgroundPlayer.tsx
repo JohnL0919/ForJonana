@@ -90,25 +90,59 @@ export default function YouTubeBackgroundPlayer({
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    // Load YouTube IFrame API
+    // Load YouTube IFrame API with error handling
     const loadYouTubeAPI = () => {
-      if (window.YT) {
-        initializePlayer();
-        return;
+      try {
+        if (window.YT) {
+          initializePlayer();
+          return;
+        }
+
+        console.log("Loading YouTube IFrame API...");
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        tag.onerror = () => {
+          console.error("Failed to load YouTube IFrame API");
+          setHasError(true);
+          setIsLoading(false);
+        };
+
+        const firstScriptTag = document.getElementsByTagName("script")[0];
+        if (firstScriptTag?.parentNode) {
+          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        } else {
+          document.head.appendChild(tag);
+        }
+
+        window.onYouTubeIframeAPIReady = initializePlayer;
+
+        // Timeout fallback in case API never loads
+        const timeout = setTimeout(() => {
+          if (!window.YT) {
+            console.error("YouTube API failed to load within timeout");
+            setHasError(true);
+            setIsLoading(false);
+          }
+        }, 10000);
+
+        return () => clearTimeout(timeout);
+      } catch (error) {
+        console.error("Error setting up YouTube API:", error);
+        setHasError(true);
+        setIsLoading(false);
       }
-
-      const tag = document.createElement("script");
-      tag.src = "https://www.youtube.com/iframe_api";
-      const firstScriptTag = document.getElementsByTagName("script")[0];
-      firstScriptTag?.parentNode?.insertBefore(tag, firstScriptTag);
-
-      window.onYouTubeIframeAPIReady = initializePlayer;
     };
 
     const initializePlayer = () => {
-      if (!playerRef.current || !window.YT) return;
+      if (!playerRef.current || !window.YT) {
+        console.error("YouTube API not ready or container not found");
+        setHasError(true);
+        setIsLoading(false);
+        return;
+      }
 
       try {
+        console.log("Initializing YouTube player with video ID:", videoId);
         ytPlayerRef.current = new window.YT.Player(playerRef.current, {
           height: "100%",
           width: "100%",
@@ -139,19 +173,32 @@ export default function YouTubeBackgroundPlayer({
               setIsLoading(false);
               setHasError(false);
 
-              // Start playing immediately
-              event.target.playVideo();
+              // Start playing immediately with better error handling
+              try {
+                event.target.playVideo();
+                console.log("YouTube player started");
+              } catch (error) {
+                console.error("Failed to start video:", error);
+                setHasError(true);
+                return;
+              }
 
-              // Try to unmute after a short delay
+              // Try to unmute after a short delay (with fallback)
               setTimeout(() => {
                 try {
                   event.target.unMute();
                   event.target.setVolume(30);
                   console.log("Video unmuted successfully");
-                } catch {
-                  console.log(
-                    "Audio autoplay blocked, will require user interaction"
-                  );
+                } catch (error) {
+                  console.log("Audio autoplay blocked, starting muted:", error);
+                  // Fallback: ensure video plays even if muted
+                  try {
+                    event.target.mute();
+                    event.target.playVideo();
+                  } catch (fallbackError) {
+                    console.error("Complete playback failure:", fallbackError);
+                    setHasError(true);
+                  }
                 }
               }, 1000);
             },
