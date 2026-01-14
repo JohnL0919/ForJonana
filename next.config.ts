@@ -1,15 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Optimize for Firebase App Hosting
-  output: "export",
-  trailingSlash: true,
-  distDir: "out",
+  // Optimize for Firebase App Hosting - use standalone, not export
+  output: "standalone",
 
-  // Note: Headers don't work with static export
-  // YouTube embedding will work via CSP meta tags instead
-
-  // Image optimization config for Firebase hosting
+  // Image optimization for Firebase hosting
   images: {
     unoptimized: false,
     domains: [],
