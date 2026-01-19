@@ -159,7 +159,7 @@ export default function YouTubeBackgroundPlayer({
             rel: 0,
             showinfo: 0,
             start: 0,
-            mute: 0, // Start muted for better autoplay compatibility
+            mute: 1, // Industry standard: start muted for guaranteed autoplay
             loop: 1,
             playlist: videoId, // Required for looping
             origin:
@@ -173,34 +173,15 @@ export default function YouTubeBackgroundPlayer({
               setIsLoading(false);
               setHasError(false);
 
-              // Start playing immediately with better error handling
+              // Industry standard: start playing immediately (muted for autoplay compliance)
               try {
                 event.target.playVideo();
-                console.log("YouTube player started");
+                console.log("✅ YouTube video started playing (muted - industry standard)");
+                console.log("💡 Users can click 'Enable Audio' button to hear sound");
               } catch (error) {
-                console.error("Failed to start video:", error);
+                console.error("❌ Failed to start video:", error);
                 setHasError(true);
-                return;
               }
-
-              // Try to unmute after a short delay (with fallback)
-              setTimeout(() => {
-                try {
-                  event.target.unMute();
-                  event.target.setVolume(30);
-                  console.log("Video unmuted successfully");
-                } catch (error) {
-                  console.log("Audio autoplay blocked, starting muted:", error);
-                  // Fallback: ensure video plays even if muted
-                  try {
-                    event.target.mute();
-                    event.target.playVideo();
-                  } catch (fallbackError) {
-                    console.error("Complete playback failure:", fallbackError);
-                    setHasError(true);
-                  }
-                }
-              }, 1000);
             },
             onStateChange: (event: YTPlayerEvent) => {
               console.log("YouTube player state changed:", event.data);
@@ -320,7 +301,7 @@ export default function YouTubeBackgroundPlayer({
                 ytPlayerRef.current.unMute();
                 ytPlayerRef.current.playVideo();
                 ytPlayerRef.current.setVolume(30);
-                console.log("Manually started video with audio");
+                console.log("🔊 Audio enabled by user interaction (industry standard)");
               } catch (error) {
                 console.log("Could not play video:", error);
               }

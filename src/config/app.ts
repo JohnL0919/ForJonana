@@ -30,7 +30,7 @@ export const PREMIUM_BENEFITS = [
   "24/7 emotional support",
   "Washing your dishes",
   "Buy you flowers and yummy food",
-  "cook you yummy eggs",
+  "cook you yummy brekkie (this used to say eggs, but we've upgraded to brekkie)",
   "Lifetime love guarantee",
   "Free upgrade to soulmate status (if you want)",
   "Make you matcha in the morning",
