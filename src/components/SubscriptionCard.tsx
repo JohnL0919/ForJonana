@@ -2,7 +2,7 @@ import HeartIcon from "./HeartIcon";
 import CardTitle from "./CardTitle";
 import CardContent from "./CardContent";
 import ActionButtons from "./ActionButtons";
-import CornerDecorations from "./CornerDecorations";
+import { Card } from "./shared/Card";
 import { SubscriptionCardProps } from "@/types";
 
 export default function SubscriptionCard({
@@ -11,7 +11,7 @@ export default function SubscriptionCard({
   onYesClick,
 }: SubscriptionCardProps) {
   return (
-    <div className="relative bg-white rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 max-w-md w-full mx-2 sm:mx-4 border border-lime-200 transition-all duration-300 ease-in-out">
+    <Card size="lg" showCornerDecorations>
       <HeartIcon />
       <CardTitle />
       <CardContent />
@@ -20,7 +20,6 @@ export default function SubscriptionCard({
         onNoButtonInteract={onNoButtonInteract}
         onYesClick={onYesClick}
       />
-      <CornerDecorations />
-    </div>
+    </Card>
   );
 }
