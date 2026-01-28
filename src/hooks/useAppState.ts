@@ -1,19 +1,29 @@
 import { useState, useCallback } from "react";
 
+type AppState = "landing" | "loading" | "success";
+
 export function useAppState() {
-  const [showSuccessPage, setShowSuccessPage] = useState(false);
+  const [appState, setAppState] = useState<AppState>("landing");
 
   const handleYesClick = useCallback(() => {
-    setShowSuccessPage(true);
+    setAppState("loading");
+  }, []);
+
+  const handleLoadingComplete = useCallback(() => {
+    setAppState("success");
   }, []);
 
   const handleBackToCard = useCallback(() => {
-    setShowSuccessPage(false);
+    setAppState("landing");
   }, []);
 
   return {
-    showSuccessPage,
+    appState,
+    showLandingPage: appState === "landing",
+    showLoadingScreen: appState === "loading",
+    showSuccessPage: appState === "success",
     handleYesClick,
+    handleLoadingComplete,
     handleBackToCard,
   };
 }

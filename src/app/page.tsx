@@ -2,6 +2,7 @@
 import BackgroundHearts from "@/components/BackgroundHearts";
 import SubscriptionCard from "@/components/SubscriptionCard";
 import SubscriptionSuccess from "@/components/SubscriptionSuccess";
+import LoadingScreen from "@/components/LoadingScreen";
 import EscapedButton from "@/components/EscapedButton";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import YouTubeBackgroundPlayer from "@/components/YouTubeBackgroundPlayer";
@@ -15,7 +16,14 @@ export default function Home() {
     escapeButton,
     resetState,
   } = useNoButtonEscape();
-  const { showSuccessPage, handleYesClick, handleBackToCard } = useAppState();
+  const {
+    showLandingPage,
+    showLoadingScreen,
+    showSuccessPage,
+    handleYesClick,
+    handleLoadingComplete,
+    handleBackToCard,
+  } = useAppState();
 
   const handleBackToCardWithReset = () => {
     handleBackToCard();
@@ -30,19 +38,24 @@ export default function Home() {
       <SpotifyPlayer playlistId={APP_CONFIG.spotifyPlaylistId} />
       <BackgroundHearts />
 
+      {/* Show loading screen overlay when loading */}
+      {showLoadingScreen && (
+        <LoadingScreen onComplete={handleLoadingComplete} />
+      )}
+
       <div className="flex min-h-screen items-center justify-center relative z-10">
         {showSuccessPage ? (
           <SubscriptionSuccess onClose={handleBackToCardWithReset} />
-        ) : (
+        ) : showLandingPage ? (
           <SubscriptionCard
             noButtonState={noButtonState}
             onNoButtonInteract={escapeButton}
             onYesClick={handleYesClick}
           />
-        )}
+        ) : null}
       </div>
 
-      {!showSuccessPage && (
+      {showLandingPage && (
         <EscapedButton
           isVisible={noButtonState.isEscaping}
           isFullyEscaped={noButtonState.escaped}
