@@ -49,7 +49,7 @@ export interface YTPlayerConstructor {
   ): YTPlayer;
 }
 
-export interface YouTubeWindow extends Window {
+export interface YouTubeWindow {
   YT?: {
     Player: YTPlayerConstructor;
     PlayerState: {
